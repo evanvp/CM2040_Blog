@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Reader-Home</title>
+</head>
+<body>
+    <h1><%= title %></h1>
+    <h2><%= author %></h2>
+
+    <!-- Scrollable list section (Published) with new list2 class for different CSS styling-->
+    <div class="dynamiclist-reader">
+        <div class="listtitle">
+            <h2>Published Articles</h2>
+        </div>
+
+        <!-- EXTENSION FUNCTION: Sorting options -->
+        <div class="sorting-options">
+            <label for="sort-by">Sort by:</label>
+            <select id="sort-by" onchange="sortArticles()">
+                <!-- use ejs tag plus ternary style to change option showing-->
+                <option value="published_at" <%= sortBy === 'published_at' ? 'selected' : '' %>>Published Date</option>
+                <option value="likes_count" <%= sortBy === 'likes_count' ? 'selected' : '' %>>Likes Count</option>
+                <option value="reads_count" <%= sortBy === 'reads_count' ? 'selected' : '' %>>Reads Count</option>
+            </select>
+        </div>
+    
+        <!-- For each published article, loop through ejs -->
+        <ul class="article-list">
+            <% pub_articles.forEach(article => { %>
+                <li class="article-all">
+                    <header>
+                        <h2><%= article.title %></h2>
+                    </header>
+                    <div class="article-info">
+                        <span><b>Published at:</b> <%= article.published_at %></span>
+                    </div>
+                    <!-- Link to the Reader - Article Page -->
+                    <a href="/reader/reader-article/<%= article.article_id %>">Read Article</a>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+
+
+</body>
+    
+<!-- Extension Script: front-end script for user to adjust sort by: -->
+<script>
+    function sortArticles() {
+        const sortBy = document.getElementById('sort-by').value;
+        window.location.href = `/reader/reader-home?sortBy=${sortBy}`;
+    }
+</script>
+
+</html>

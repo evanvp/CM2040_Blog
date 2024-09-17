@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Author-Edit</title>
+</head>
+<body>
+    <!-- Author Edit Page Top (similar to home page)-->
+    <div class="blogtop">
+        <div class="left-content">
+            <h1><%= article ? article.title : 'New Draft' %></h1>
+        </div>
+        <div class="right-content">
+            <a href="/author/author-setting" class="settings-link">Settings</a>
+        </div>
+    </div>
+    
+    <span><b>Created at:</b> <%= article ? article.created_at : 'N/A' %></span>
+    <span><b>Published at:</b> <%= article ? article.published_at : 'N/A' %></span>
+    <span><b>Last modified:</b> <%= article ? article.updated_at : 'N/A' %></span>
+    <span><b>Number of reads:</b> <%= article ? article.reads_count : 0 %></span>
+    <span><b>Number of likes:</b> <%= article ? article.likes_count : 0 %></span>
+
+
+    <!-- edit page main function part - editing form: -->
+    <div class="edit-form">
+        <form id="edit-form" method="POST">
+            <input type="hidden" id="article_id" name="article_id" value="<%= article ? article.article_id : '' %>">
+            <input type="text" id="title" name="title" placeholder="Title" value="<%= article ? article.title : '' %>">
+            <textarea id="content" name="content" placeholder="Content"><%= article ? article.content : '' %></textarea><br>
+            <!-- using button formaction to override action in <form> to handle two routes -->
+            <button type="submit" formaction="/author/save">Save</button>
+            <button type="submit" formaction="/author/publish">Publish</button>
+        </form>
+    </div>
+    
+    
+</body>
+</html>

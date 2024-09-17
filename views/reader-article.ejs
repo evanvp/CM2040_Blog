@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title>Reader-Article</title>
+</head>
+<body>
+    <!-- Contain Article Baisc Infomation on Top -->
+    <div class="article-info">
+        <header>
+            <h2><%= article ? article.title : 'New Draft' %></h2>
+        </header>
+        <div class="article-stats">
+            <span><b>Published at:</b> <%= article ? article.published_at : 'N/A' %></span>
+            <span><b>Number of reads:</b> <%= article ? article.reads_count : 0 %></span>
+            <span><b>Number of likes:</b> <%= article ? article.likes_count : 0 %></span>
+            <!-- Form for Updating Like Data: /reader/like/:id routes-->
+            <form action="/reader/like/<%= article.article_id %>" method="get" class="like-form">
+                <button type="submit" class="like-button">Like</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Section for Aricle Content ONLY -->
+    <div class="article-content">
+        <span><%= article ? article.content : 'N/A' %></span>
+    </div>
+    
+    <!-- Command section devided into left/right part-->
+    <div class="container">
+        <div class="left-side">
+            <!-- Comment form section -->
+            <div class="comment-form">
+                <h2>Add a Comment</h2>
+                <form id="comment-form" method="POST" action="/reader/comment">
+                    <input type="hidden" id="article_id" name="article_id" value="<%= article ? article.article_id : '' %>">
+                    <input type="text" id="author_name" name="author_name" placeholder="Your Name" required>
+                    <textarea id="comment" name="comment" placeholder="Your Comment" required></textarea>
+                    <button type="submit">Submit Comment</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="right-side">
+            <!-- past comments section -->
+            <div class="dynamiclist-comment">
+                <!-- Loop existed comments through ejs -->
+                <ul>
+                    <% comments.forEach(comment => { %>
+                        <li class="comment-item">
+                            <h3><%= comment.author_name %></h3>
+                            <p><%= comment.comment_text %></p>
+                            <span><b>Published at:</b> <%= comment.published_at %></span>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+     <!-- bottom nav back home -->
+    <div class = "backhome">
+        <a class="homepage-link" href="/reader/reader-home">Back to Reader Home</a>
+    </div>
+
+
+</body>
+</html>

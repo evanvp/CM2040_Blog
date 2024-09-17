@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <title>Author-Home</title>
+</head>
+<body>
+    <!-- Author Home Page Top Section -->
+    <div class="blogtop">
+        <div class="left-content">
+            <h1><%= title %></h1>
+            <h2><%= author %></h2>
+        </div>
+        <div class="right-content">
+            <a href="/author/author-setting" class="settings-link">Settings</a>
+        </div>
+    </div>
+
+    <!-- srollable list section (for Published ariticles)-->
+    <div class="dynamiclist">
+        <div class="listtitle">
+            <h2>Published Articles</h2>
+        </div>
+        <!--for each published articles, loop through ejs-->
+        <ul class="article-list">
+            <% pub_articles.forEach(article => { %>
+                <li class="article-all">
+                    <header>
+                        <h2><%= article.title %></h2>
+                        <div class="actions">
+                            <!-- form to delete the article -->
+                            <form action="/author/delete/<%= article.article_id %>" method="get" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </header>
+                    <div class="article-info">
+                        <span><b>Created at:</b> <%= article.created_at %></span>
+                        <span><b>Published at:</b> <%= article.published_at %></span>
+                        <span><b>Last modified:</b> <%= article.updated_at %></span>
+                        <span><b>Number of reads:</b> <%= article.reads_count %></span>
+                        <span><b>Number of likes:</b> <%= article.likes_count %></span>
+                    </div>
+                    <!-- Sharing link to the Reader - Article Page -->
+                    <a href="/reader/reader-article/<%= article.article_id %>">Read Article</a>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+
+    <!--another dynamic list for draft articles-->
+    <div class="dynamiclist">
+        <div class="listtitle">
+            <h2>Draft Articles</h2>
+            <a href="/author/author-edit">
+                <button type="button">Create New Draft</button>
+            </a>
+        </div>
+        <!--for each published articles, loop through ejs-->
+        <ul class="article-list">
+            <% draft_articles.forEach(article => { %>
+                <li class="article-all">
+                    <header>
+                        <h2><%= article.title %></h2>
+                        <div class="actions">
+                            <!-- form to navigate to the edit page -->
+                            <form action="/author/author-edit/<%= article.article_id %>" method="get">
+                                <button type="submit">Edit</button>
+                            </form>
+                            <!-- form to delete the article -->
+                            <form action="/author/delete/<%= article.article_id %>" method="get" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </header>
+                    <div class="article-info">
+                        <span><b>Created at:</b> <%= article.created_at %></span>
+                        <span><b>Last modified:</b> <%= article.updated_at %></span>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+    
+    <!-- bottom nav back to home(top)-->
+    <div class = "backhome">
+        <a class="homepage-link" href="/author/author-home">Back to Author Home</a>
+    </div>
+
+</body>
+
+
+</html>
